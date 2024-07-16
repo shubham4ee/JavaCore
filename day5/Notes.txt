@@ -1,0 +1,168 @@
+Abstract Classes:
+	Sometimes, there is a need of defining the classes where full implementation is not available. Such classes 
+	are treated as Incomplete Classes. In the context of Java, they are called as Abstract Classes.
+	
+	E.g.
+		Consider the following:
+			class Shape {
+				void draw(){ } //Empty Implementation
+			}
+			class Rectangle extends Shape {
+				void draw(){
+					//Code to draw Rectangle
+				}
+			}
+			
+		Considering the above fragment, the following code results into the invocation of 'draw()' method from
+		Rectangle class:
+			Shape sh = new Rectangle();
+			sh.draw();
+			
+		Since the 'draw()' method from 'Shape' class is not getting called at all, developer may decide to remove 
+		that method from 'Shape' class.
+		
+		If done so, the statement 'sh.draw()' will generate compilation error.
+		Therefore, just for the sake of compilation, the 'draw()' method has to be present in the 'Shape' class.
+		
+		Java provides one facility over here. If the method's presence is important and not about its implementation,
+		Java allows to declare the method rather than defining it.
+		
+		E.g.
+			class Shape {
+				void draw();
+			}
+			
+			In the above fragment the method 'draw()' has been declared and not defined.
+			However, this fragment is imaginary because it is invalid.
+			
+			When the method is to be declared and not defined, Java enforces the method to be explicitly declared
+			as 'abstract'.
+			
+			E.g.
+				class Shape {
+					abstract void draw();
+				}
+			
+			In the above fragment, the 'draw()' method is correctly declared as 'abstract' however this is still
+			illegal.
+			
+			The class which contains at least 1 method as 'abstract', Java enforces to declare the whole class as
+			'abstract'.
+			
+			Therefore, the final version of Shape class will be as per the following:
+				abstract class Shape {
+					abstract void draw();
+				}
+				
+		Rules about Abstract Classes:
+			1. Abstract classes cannot be instantiated. (Object creation is not possible)
+			2. It is possible to declare the reference of abstract class type which refers to an object of its sub-class.
+			3. When a sub-class is created from an abstract base class, the sub-class has to override all the abstract
+				methods coming from Super class; otherwise it also should be declared as 'abstract'.
+			4. Constructors, Variables and Static methods cannot be declared as 'abstract'.
+			5. Abstract classes may have concrete methods (non-abstract).
+			6. If a method is declared 'abstract', the class must be declared 'abstract' whereas if a class is declared
+				'abstract', it is not necessary that it must contain at least 1 'abstract' method.
+				
+	Working with 'final':
+		It is a modifier in Java used to create variables immutable (Value cannot be changed).
+		Any attempt to change the value results into compilation error.
+		
+		E.g.
+			final float PI = 3.14f;
+			PI = 3.134f; //Error
+			
+		If a 'final' variable is a reference to some object, then the reference must stay the same and not the object.
+		E.g.
+			final City c1 = new City("Pune");
+			c1.setName("Mumbai");
+			
+		The impact of 'final' is different in case of references. The above code is still valid. It is possible to change
+		the object's content. The following code is invalid:
+			final City c1 = new City("Pune");
+			c1 = new City("Mumbai");//Error 
+			
+		'final' can also be used in case of methods to prevent overriding.
+		If a method is 'private', it is implicitly 'final'.
+		
+		'final' can also be used in case of classes to prevent inheritance.
+		If a class is declared as 'final', its methods become implicitly final.
+		
+		Modifiers 'abstract' and 'final' cannot appear together.
+
+	Interface:				
+		What is Interface?
+			Interface is a collection of 'abstract' methods and possibly 'final' variables.
+			It is used to declare methods where implementation is not available.
+			
+		Declaring Interface:
+			Interface is declared using 'interface' keyword.
+			E.g.
+				interface MyInterface { ... }
+				
+			Like abstract classes, interfaces cannot be instantiated.
+			Interface can be further used by creating a class which implements that interface.
+			Java provides 'implements' keyword to handle this.
+			
+			E.g.
+				class MyClass implements MyInterface { ... }
+		
+			Even though interfaces cannot be instantiated, it is possible to declare a reference of some interface
+			type.
+			E.g.
+				MyInterface mi;
+			
+			This reference can refer to an object of a class which implements that interface.
+			
+			E.g.
+				mi = new MyClass();
+				
+	Why Interfaces?
+		Interfaces are mainly used to achieve following:
+			1. Expanding the scope of Polymorphism
+			2. Multiple Inheritance in terms of Behaviours
+			3. Loose Coupling
+			
+	Interface Rules:
+		1. If an interface is 'public', its methods are by default 'public' and also 'abstract'.
+			E.g.
+				public interface Test {
+					void doTest();
+				}
+				IS SAME AS THAT OF
+				public interface Test {
+					public abstract void doTest();
+				}
+				
+		2. If an interface is 'public', its variables are by default 'public' and 'static' as well as 'final'.
+			E.g.
+				public interface Test {
+					int testId = 101;
+				}
+				IS SAME AS THAT OF
+				public interface Test {
+					public static final int testId = 101;
+				}
+				
+		3. A class can extend one class but can implement any number of interfaces.
+			E.g.
+				class MyClass implements InterfaceA, InterfaceB, InterfaceC etc.
+				
+		4. An interface can be implemented by any number of classes.
+		
+		5. An interface can extend any number of interfaces.
+			E.g.
+				interface A { ... }
+				interface B { ... }
+				interface C extends A, B { ... }
+				
+		6. When a class implements interface, it must implement all the abstract methods of that interface;
+			otherwise it must be declared 'abstract'.
+		
+		
+		
+		
+		
+			
+			
+			

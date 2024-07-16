@@ -1,0 +1,237 @@
+Object Oriented Programming:
+	Object Oriented Programming is a set of principles used to build softwares.
+	
+	There are mainly 5 principles:
+		1. Abstraction
+		2. Encapsulation
+		3. Modularity
+		4. Inheritance
+		5. Polymorphism
+		
+		Abstraction:
+			It is the process of hiding complexities.
+			It also identifies key aspects and ignores rest.
+			
+		Encapsulation:
+			It is the separation between an abstraction and its implementation.
+			It ensures that the data is not manipulated directly; rather it is done through some channel.
+			
+		Modularity:
+			It is the process of breaking the system into small units of work known as modules.
+			Due to this, the complexity gets reduced and the system is more flexible and reusable.
+		
+		Inheritance:
+			It is the process of creating new things based upon the existing one.
+			It allows to reuse the same structure to adopt new requirements.
+			
+		Polymorphism:
+			It is the process of providing different implementations for same functionality.
+			
+		Implementing Encapsulation:
+			The first step towards implementing encapsulation is data hiding.
+			This is possible using an access modifier: 'private'
+			Once the field is declared as 'private', direct access from outside that is class is prohibited.
+			It is to be made accessible through some channel known as: methods.
+			
+		Handling Individual Fields:
+			Handling the fields of a class individually is a very common requirement. Typically, it is about setting the
+			value or getting the value. This is done with the help of accessor and mutator methods.
+			They are also called as getters (getXxx()) and setters (setXxx()).
+			
+			Ideally, these methods need to follow naming convention as shown above.
+			
+			E.g.
+				If the field is declared as: float empSal; then its getter and setter methods will be as per the following:
+					float getEmpSal()
+					void setEmpSal(float)
+					
+				Conventions ideally need to be followed as they matter a lot in Enterprise Java.
+				
+				Naming Conventions:
+					Classes: TitleCased
+						E.g.	FirstDemo, FirstJavaDemo
+					
+					Variables: camelCased
+						E.g.
+							grossSalary, totalMonthlyIncome
+							
+					Methods: camelCased
+						E.g.
+							setGrossSalary(), getTotalMonthlyIncome()
+							
+		Method Overloading:
+			When 2 or multiple methods defined within same class having same name but different signatures; then
+			those methods are called as overloaded methods.
+			
+			E.g.
+				class Test {
+					void doTest(){...}
+					void doTest(int a){...}
+					void doTest(int a, int b){...}
+					void doTest(String s){...}
+					void doTest(int a, String s){...}
+					void doTest(String s, int a){...}
+				}
+				
+			The signatures of the methods are considered to be different if any one of the following is satisfied:
+				1. No. of parameters is different
+				2. Type of parameters is different
+				3. Sequence of parameters is different
+			
+			***Return type of the method is not taken into consideration.
+			E.g.
+			The below code fragment is invalid:
+				class Test {
+				 void doTest(){ ...}
+				 int doTest(){ return 10; }
+				}
+		
+			In method overloading, method calls are resolved at compile time. Hence Method Overloading is a 
+			Compile Time (Static) Polymorphism.
+			
+			E.g.
+				Consider the following:
+					class Test {
+						void doTest(){ ... }
+						void doTest(String s){...}
+					}
+					
+					Test t = new Test();
+					t.doTest();//Invokes 1st doTest()
+					t.doTest("Hello");//Invokes 2nd doTest()
+					t.doTest("Hello", "World");//Error as doTest(String, String) is not available.
+		
+		Constructor:
+			Unlike C and C++, Java does not have Garbage Values; rather it goes for DEFAULT values.
+			These values depend upon the type of the field.
+			
+			E.g.
+				Field Type				Default Value
+				Integers						0
+				Fractions						0.0
+				char								'\u0000'
+				boolean							false
+				Reference-Type			null
+				
+			Sometimes, it is necessary to avoid the default values when the object is created. 
+			This is called as object initialization.
+			
+			If initialization is done using a method, unless and until the method is invoked, object won't get initialized.
+			Therefore it will be better if it gets initialized the moment it is created.
+			This is possible using Constructor.
+			
+			Constructor is a special member within a class having same name as that of class name.
+			It gets invoked implicitly as soon as the object is created.
+			Unlike method, it does not have 'return' type, not even 'void'.
+			
+			Constructors are used for Initialization.
+			
+			Like methods, constructors can be overloaded.
+			
+	Understanding 'this':
+		Every member method or a constructor of a class has a hidden parameter: 'this'.
+		It is a keyword in Java. It always refers to the current object.
+		
+		When to use 'this'?
+			Sometimes the variables declared within method signature (local variables) may have same names as 
+			that of the actual field names of the class.
+			
+			In this case, local variables get higher priority. Therefore it is necessary to resolve the scope using
+			'this' keyword.
+			
+	Static Members:
+		Whatever declarations, definitions are available inside the class are called as members of a class.
+		E.g.
+			Variables, Methods, Constructors and so on.
+			
+		The class members are of 2 types:
+			1. Non Static
+			2. Static
+		
+		Non-Static Members:
+			These are the characteristics which are associated with a particular instance or object.
+			
+		Static Members:
+			These are the characteristics which are NOT associated with any particular instance or object;
+			rather they are associated with the entire class.
+			
+			They are expressed using 'static' modifier.
+			
+			Static members are of 2 types:
+				1. Variables
+				2. Methods
+				
+			***Constructors cannot be 'static'
+			
+		Static Variables:
+			When a variable is declared as 'static', there is a single copy created for that variable irrespective of
+			the number of objects.
+			
+			Since only one copy exists, it is also called as Class Variable.
+			(Non-Static variables are called as Instance Variables because their copy is created for every new
+				instance)
+				
+			Since 'static' variables are class specific, they can be accessed directly from outside the class provided
+			they are not declared as 'private'.
+			
+			It is done using following syntax:
+				[ClassName].[VariableName]
+				
+		Static Methods:
+			Similar to variables, methods can also be defined as 'static'.
+			Once a method is defined as 'static', it can be called without object using following syntax:
+				[ClassName].[methodName]().
+				
+			However, it can be called using object also but it is not recommended.
+			
+			Non-Static Vs Static Methods:
+			1. Non-Static methods must be invoked using an object always whereas Static methods can be called
+			   without object as well as with object but ideally they must be called without object.
+			   
+			2. Non-Static methods can access Non-Static as well as Static members whereas Static methods can
+				access only Static members.
+				
+			3. Non-Static methods can make use of 'this' whereas Static methods cannot.
+			
+		Why main() method is 'static'?
+			Since main() is the entry point and it needs to be called without any object creation and therefore it
+			is 'static'.
+	
+		*** Modifiers may appear in any order.
+		
+		More on 'static':
+			'static' modifier can also be used to create a block known as static block.
+			E.g.
+				class Test {
+					static {
+						//Statements
+					}
+				}
+				
+			The static block gets invoked as soon as the class gets loaded. This allows developers to take necessary
+			actions if any during class loading.
+			
+			It can also be used to initialize 'static' variables.
+			
+		Types of Variables:
+			In Java, variables are divided into 3 types:
+				1. Instance Variables (Non Static Variables) - Copy is created for every new instance or object.
+				2. Class Variables (Static Variables) - Copy is created for the whole class and not the object.
+				3. Local Variables - They are declared within a specific scope.
+				(***Local Variables do not have DEFAULT values; rather they need to be initialized before getting
+				   used.)
+								
+			
+			
+			
+					
+			
+					
+			
+			
+			
+			
+			
+			
+			
+			

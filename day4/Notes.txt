@@ -1,0 +1,149 @@
+1		Inheritance:
+	It is one of the major principles of Object Oriented Programming.
+	It allows to use the same structure again and again to adopt new requirements.
+	Java provides 'extends' keyword to implement Inheritance.
+	
+	E.g.
+		class Player { ... }
+		class CricketPlayer extends Player { ... }
+		class SoccerPlayer extends Player { ... }
+		
+	In the above code fragment, the class 'Player' is inherited by 'CricketPlayer' and 'SoccerPlayer' classes.
+	The class which is being inherited is termed as Base / Super / Parent class e.g. Player.
+	The class which inherits another class is termed as Derived / Sub / Child class 
+		e.g. CricketPlayer and SoccerPlayer.
+		
+	Inheritance in Java:
+		Java supports 3 types of inheritances:
+			1. Simple / Single e.g. A ---> B
+			2. Multilevel e.g. A ---> B ---> C ----> D and so on
+			3. Hierarchical e.g. A ---> B, A ---> C
+			
+		***Unlike C++, Java does not support multiple and hybrid inheritance.
+		*** Inheritance in Java is always 'public'
+		
+	Constructors in Inherited classes:
+		Constructors defined within inherited classes are invoked from bottom to top but they execute from top
+		to bottom.
+		
+		When the object of sub-class is created, the sub-class constructor gets called which in turn gives a call
+		to its super class constructor.
+		
+		When the inherited classes define parameterized constructors, in order to initialize the object, the derived
+		class has to select the appropriate parameterized constructor from base class; so that it can pass the
+		control to that constructor in order to perform initialization.
+		
+		Java provides 'super' keyword to pass the control to the parent class constructor.
+		'super' refers to immediate super class.
+		If used, it must be the first statement.
+		If not used, then the parent class no-argument constructor gets invoked.
+		Using 'super()' and not using 'super' have same impact.
+		
+		Adding no-argument constructor in an entity class is a standard programming practice and in some cases, it
+		is enforced.
+		
+	Method Overriding:
+		If 2 methods have same name, same signature and same return type defined within inherited classes, then
+		they are called as overridden methods.
+		
+		***Inheritance is must for method overriding.
+		
+		E.g.
+			class Base {
+				void myMethod(int x){ ... }
+			}
+			
+			class Derived extends Base {
+				void myMethod(int x){ ... }
+			}
+			
+			In the above fragment, the method: myMethod from Derived class has same name, signature and return
+			type as that of the method available in the Base class.
+			
+			It means, the method from Derived class overrides the method from Base class.
+			
+		Why to override methods?
+			Overriding is used to modify the behaviour of the base class method to suit the new requirement.
+			
+		Method Overloading is a Compile Time (Static) polymorhism whereas 
+		Method Overriding is a Runtime (Dynamic) polymorphism.
+		
+		Every reference has 2 types: Static and Dynamic.
+		
+		E.g.
+			Consider the following:
+			class Base {
+				void myMethod(int x){ ... }
+			}
+			
+			class Derived extends Base {
+				void myMethod(int x){ ... }
+			}
+			
+			Derived obj = new Derived();
+			[Static]				[Dynamic]
+			
+		In the above statement, reference 'obj' has Static and Dynamic types as same: 'Derived'
+		Hence 'obj.myMethod()' results into the invocation of myMethod() from Derived class.
+		
+		Dynamic type governs method selection.
+		E.g.
+			Base obj = new Derived();
+		
+		In the above statement, the Static type of 'obj' is Base whereas its Dynamic type is 'Derived'
+		Therefore 'obj.myMethod()' results into the invocation of myMethod() from Derived class.
+		
+		When the derived class object is created using a reference of base class, it is possible to call only those
+		methods using that reference if they are available in the base class.
+		
+		In order to invoke only derived class methods which are not available in base class, explicit type cast is
+		required.
+		
+		E.g.
+			class Base {  }
+			class Derived extends Base { 
+				void m1() { } 
+			}
+			Base ref = new Derived();
+			ref.m1();//Error
+			
+			Derived anotherRef = (Derived)ref;
+			anotherRef.m1(); //OK
+			
+	More on Overriding:
+		Method Overriding can be used in 2 contexts:
+			1. Replacement
+			2. Extension
+			
+		Replacement:
+			In this case, the derived class method completely modifies or replaces the base class method.
+			
+		Extension:
+			In this case, the derived class method extends the functionality of base class method and adds new 
+			functionality to that.
+			
+			This is done using 'super'.
+			E.g.
+				class Base {
+					void myMethod(){ ... }
+				}
+				class Derived extends Base {
+					void myMethod(){
+						super.myMethod(); //Invokes Base class's myMethod
+					}
+				}
+				
+				Base b1 = new Derived();
+				b1.myMethod();
+					
+			
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		

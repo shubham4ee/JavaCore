@@ -1,0 +1,112 @@
+JDBC:
+	JDBC stands for Java to Database Connectivity.
+	Every business application has 2 paradigms:
+		1. Front End
+		2. Back End
+	
+	The front end is implemented using various technologies, programming languages etc whereas the back end is
+	implemented using various types of data layers e.g. File System, RDBMS and even No SQL.
+	
+	Many large scale applications prefer databases rather than files because these database servers offer several
+	services.
+	E.g.
+		1. Well defined Data Models
+		2. Simplicity in Data Access
+		3. Data Isolation
+		4. Transaction Management
+		5. Security
+		
+	Therefore, it is necessary to bridge the gap between the Java application and Database which is possible using
+	JDBC API.
+	
+	It is an API or library given by Java which allows Java applications to interact with database and perform the 
+	necessary query operations.
+	
+	JDBC can support these things using SQL queries for RDBMS.	
+	
+	The way Java provides its own API which is JDBC API, every Database Vendor also provides its own API which
+	simplifies access for all the client programs which want to interact with the database.
+	
+	This API is known as Vendor Specific API.
+	
+	Since both the APIs are written as per their own standards, there are conflicts or mismatches.
+	To resolve these conflicts, a Driver is used.
+	
+	Driver:
+		It is a program that converts JDBC calls into some format which is compatible with the DB vendor.
+		It is also called as JDBC Driver.
+		
+	In general, there are 4 types of JDBC Drivers:
+		1. Type 1
+		2. Type 2
+		3. Type 3
+		4. Type 4
+		
+	Type 1 Driver:
+		It is called as JDBC-ODBC bridge.
+		It uses a 3rd party library called as ODBC: Open Database Connectivity which is given by Microsoft.
+		It converts JDBC calls into some format which is compatible with ODBC.
+		Further, ODBC uses its own driver which converts the call into vendor specific format.
+		This type of driver is used up to very limited extent. It is not recommended for production environment.
+		
+		Limitations:
+			1. It is the slowest
+			2. It is platform dependent
+			3. For every client machine, ODBC configuration setup is must.
+			
+		Benefits:
+			It is easy to use.
+			It is fine for small and simple applications.
+			It can be used well just for testing purpose.
+			
+	Type 2 Driver:
+		It is called as Native API, Partly Java Driver
+		Its implementation is a combination of Java and DB vendor specific standards.
+		It uses DB specific native library for interacting with DB.
+		It does not involve any 3rd party library.
+		
+		Benefits:
+			1. Since the conversion is direct, it is faster as compared to Type 1.
+			2. Since there is no 3rd party library, it is platform independent.
+			
+		Limitation:
+			On every client machine, DB specific native library must be installed.
+			
+	Type 3 Driver:
+		It is called as Net Protocol, Intermediate DB Access Server
+		It is used when a client program wants to interact with multiple databases.
+		It uses a middleware which acts as a router.
+		
+	Type 4 Driver:
+		It is called as Vendor Specific, Pure Java Driver
+		Every DB vendor provides its own driver which is implemented using Java.
+		It uses TCP socket connections to interact with database.
+		
+		Benefits:
+			It is the fastest.
+			It is platform independent
+			No setup required on client machine.
+			
+		Therefore this is the most frequently used driver.
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+		
+		
+		
+		
+		
+		
+		
+		

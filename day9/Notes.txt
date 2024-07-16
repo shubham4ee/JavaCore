@@ -1,0 +1,221 @@
+Implementing multi-threading using Runnable:
+	A thread implementation class can be created by implementing Runnable interface.
+	It is an interface that declares single method: public void run();
+	Since the thread implementation class implements this interface, it must define 'run()' method.
+	
+	However, it is necessary to pass Runnable as a target for the correct implementation.
+	This is because, the 'Thread' class already implements 'Runnable' interface and overrides 'run()' method.
+	Therefore, unless the target is set, the default 'run()' method gets invoked which does nothing.
+	
+	This is possible by using parameterized constructor of 'Thread' class which accepts 'Runnable' type.
+	E.g.
+		Thread(Runnable)
+		
+Scheduling of Threads:
+	It is a mechanism implemented by operating system using some algorithm known as scheduler.
+	This algorithm is OS specific and therefore the behaviour of multithreaded programs is platform dependent.
+	Generally OS implements priority based scheduling.
+	
+	Threads can have priorities which can be set using 'setPriority()' method of 'Thread' class.
+	The priority values are ranging between 1 to 10 where 1 is minumum and 10 is maximum.
+	Unless the priority is set, it is by default 5.
+	
+Methods of 'Thread' class:
+	'Thread' class provides several methods to handle various operations:
+		E.g.
+			public void start():
+				Makes a request to OS for the creation of the thread.
+				Brings thread into READY state from BORN state.
+				Invokes 'run()' method when the thread is scheduled by scheduler.
+				
+			
+			public void stop():
+				Abruptly kills the thread.
+				Sends the RUNNING thread directly into DEAD state.
+				This is not much desired approach and therefore this method is declared as DEPRECATED.
+				
+				A thread can enter into DEAD state under 3 circumstances:
+					1. Completes the task.
+					2. stop() is invoked.
+					3. Due to some uncaught UNCHECKED exception
+					
+			public static void sleep(long):
+				Sends the currently RUNNING thread into SLEEPING state for some time interval that is in terms of
+				milliseconds.	
+				As soon as this interval is over, it wakes up and goes back to the READY state.
+				
+			public static void yield():
+				Allows the currently RUNNING thread to give up the control to some other thread.
+				Sends the thread into READY state from RUNNING state.
+				
+			public void suspend():
+				Sends the currently RUNNING thread into SUSPENDED state.
+			public void resume():
+				Brings the SUSPENDED thread back into READY state.
+			
+				Since it is implementation dependent, both these methods are declared as DEPRECATED.
+				
+			public static Thread currentThread():
+				Returns the reference of currently RUNNING thread.
+				
+			public void join():
+				Enforces parent thread to wait until the child thread is over.
+				
+Synchronization:
+			Sometimes, there might be a requirement where 2 or multiple threads are working upon same data or
+			same object.
+			
+			In this case, it is to be ensured that an object is modified by 1 thread at a time. This is possible using
+			Synchronization.
+			
+			If not handled properly, the threads fall into RACE condition.
+			
+			The key to synchronization is monitor. A monitor is called as mutually exclusive lock.
+			Only 1 thread can own a monitor at a time. All the other threads will have to wait until the 1st thread
+			releases the lock or exits from the monitor.
+			
+			Implementing Synchronization:
+				To implement Synchronization, Java provides 'synchronized' keyword.
+				It can be used by 2 ways:
+					1. Using synchronized method
+					2. Using synchronized block
+					
+				Synchronized method:
+					In this case the method is declared as synchronized.
+					E.g.
+						public synchronized void m1() {...}
+						
+					When the currently running thread calls a method on some object and if the method is declared as 
+					'synchronized', then that thread acquires a lock on that object.
+					
+					Once the control exits from that method, the lock gets released and it is open for other threads.
+					
+				Synchronized block:
+					Instead of declaring the method as 'synchronized', it is possible to declare the block as 
+					'synchronized'. This approach is useful especially for legacy classes where synnchronization is
+					not handled.
+					
+					E.g.
+						synchronized(Object){
+							//Some Code
+						}
+						
+				Using synchronized methods:
+					Even though synchronized methods have limitations, in some cases they are useful.
+					The class owner (class developer) may declare methods of the class as 'synchronized' keeping
+					future requirements in mind.
+					
+					Such a class is called as Thread-safe class.
+					
+					E.g. 
+						StringBuffer is a Thread-safe class whereas StringBuilder is not.
+						
+	Inter-thread Communication:
+		2 or multiple threads can communicate with each other. 
+		Definitely these threads are working upon same data i.e. object.
+		E.g.
+			Producer and Consumer
+			
+		To implement Inter-thread communication, there are relevant methods available:
+			1. wait()
+			2. notify()
+			3. notifyAll()
+	
+		These methods are defined in 'Object' class and they are 'final'.
+		They must be invoked within 'synchronized' context.
+		
+		wait():
+			Used to release the lock explicitly.
+			Sends the currently RUNNING thread into WAITING state.
+			
+		notify():
+			Used to send notification to the thread available in WAITING state.
+			When some other thread enters into the locked monitor for the same object and calls 'notify()', then
+			the thread from WAITING state comes out and goes back to READY state.
+			Wakes up the single waiting thread.
+			
+		notifyAll():
+			Behaves same as that of notify(); but it wakes up all the waiting threads.
+			
+IO and File Handling:
+	Every application needs some input and it delivers some output.
+	The location from which input is taken is known as SOURCE whereas the location to which output is delivered
+	is known as DESTINATION.
+	
+	Therefore, in IO programming, there are 2 basic operations involved: READ and WRITE.
+	In case of READ operation, some SOURCE is required whereas in case of WRITE operation, some DESTINATION
+	is required.
+	
+	There are several possible sources.
+	E.g.
+		File, Input Device, Socket and so on
+		
+	There are several possible destinations.
+	E.g.
+		File, Output Device, Socket and so on.
+		
+		To perform any operation either READ or WRITE, some connector is required.
+		This connector is known as Stream.
+		
+		Stream depicts the flow of bytes (data or information).
+		
+		Since there are 2 operations involved, streams are of 2 types:
+			InputStream (READ) and OutputStream (WRITE)
+			
+			Java provides 2 abstract base classes to handle IO operations:
+				InputStream and OutputStream
+				
+			Depending upon the SOURCE or DESTINATION, their appropriate sub-classes have to be used.
+			
+			E.g.
+				To READ the data from FILE: FileInputStream
+				To WRITE the data into FILE: FileOutputStream
+				
+			The entire IO specifc library is provided by a package: java.io
+			
+			Reading data from File:
+				To read data from File, FileInputStream is used. Once the object is created, it has a file pointer which
+				by default starts pointing to the Beginning of the file.
+				
+				To read the data character-by-character, 'read()' method is used. The method reads a single 
+				character and returns its value. It also places file pointer 1 step ahead.
+				
+				If EOF position is encountered, read() returns -1.
+				
+	try-with-resources:
+		It is a feature introduced since Java version 7. It allows automatic closing of resources once their job is
+		finished.
+		
+		To handle this, Java provides an interface from 'java.lang', known as 'AutoCloseable'.
+		Any resource can be used along with 'try-with-resources' if the relevant class implements 'AutoCloseable'.
+		That's why almost all IO specific libraries have been modified since Java 7 in such a way that they 
+		implement 'AutoCloseable' so that they can be used along with 'try-with-resources'.
+		
+		Syntax:
+			try(resource-declaration){
+			
+			}
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+	
+	
+	
+	
+	
+	
+	
+	
+	

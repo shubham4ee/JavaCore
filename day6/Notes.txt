@@ -1,0 +1,212 @@
+Abstract Class Vs Interface:
+	1. Abstract classes are used to achieve polymorphism which is limited to single hierarchy.
+		Interfaces are used to achieve polymorhism which can be used across multiple hierarchies.
+		
+	2. A class can extend only one abstract class whereas it can implement many interfaces.
+	
+	3. Abstract classes can contain abstract as well as concrete methods.
+		Interfaces generally contain only abstract methods.
+		
+Interface Enhancements:
+	Since Java version 8, it is possible to define methods within an interface provided they are either 'static'
+	or 'default'.
+	
+	E.g.
+		public interface Test {
+			void doTest();//Abstract Method
+			default void doSomeTest(){ //Default Method
+				//Some default implementation code
+			}
+			
+			static void doAnotherTest(){ //Static Method
+				//Some Code
+			}
+		}
+		
+Inner Classes:
+	When a class is defined within another class then that class is called as an inner class.
+	E.g.
+		class A {
+			class B {
+			}
+		}
+	
+		In the above fragment, Class A is an outer class whereas Class B is an inner class.
+		
+		Why Inner Classes:
+			Sometimes there is a need to handle some complex logic which is to be isolated but handled locally.
+			This can be achieved using inner classes.		
+			
+			Inner classes are often used in GUI programming model.
+			
+		Types of Inner Classes:
+			Inner classes are of 4 types:
+				1. Static Inner Class
+				2. Nested Class
+				3. Local Class
+				4. Anonymous Inner Class
+				
+			Static Inner Class:
+				An inner class declared with 'static' modifier is known as Static Inner class.
+				E.g.
+					class A {
+						static class B {
+						}
+					}
+					In the above fragment, class B is a Static Inner class.
+					They can access only static members of outer class.
+					Their objects can be created without the object of outer class.
+					However since the inner class is declared within outer class, its name should be referred through the
+					name of the outer class.
+					
+					E.g.
+						A.B
+						
+			Nested Class:
+				An inner class declared without 'static' modifier is known as Nested class.
+				E.g.
+					class A {
+						class B {
+						}
+					}
+			
+				In the above fragment, class B is a Nested class.
+				They can access static as well as non-static members of outer class.
+				Their objects must be created using the object of outer class.
+		
+			Local Class:
+				A class which is defined locally within some block is called as Local Class.
+				E.g.
+					class A {
+						void m1() {
+							class B {
+							
+							}
+						}
+					}
+				In the above fragment, class B is locally defined within method m1(). Hence it is a local class.
+				It is loaded and instantiated for every method call.
+		
+				***
+					1. A method can be defined within a class.
+					2. A class can be defined within another class.
+					3. A class can be defined within a method.
+					4. But a method cannot be defined within another method.
+					
+		Anonymous Inner Class:
+			An inner class defined without any name is called as Anonymous Inner Class.
+			Generally it is used in the context of abstract classes or interfaces.
+			It allows to adopt new requirement which is very rare; without having the overhead of a separate class.
+			
+		Inner Class specific .class files:
+			Since .class file is created for every class, it is also created for an inner class.
+			Java uses '$' as a separator between the name of the Outer class and Inner class.
+			
+			E.g.
+				class A {
+					class B {
+					}
+				}
+				In the above fragment, since there are 2 classes, there will be 2 .class files as per the following:
+					1. A.class
+					2. A$B.class
+					
+Package:
+	Package is a collection of classes, interfaces and other type declarations.
+	
+	Benefits:
+		1. Package is used to isolate class libraries from other libraries.
+		2. It is also used to reduce naming conflicts.
+		
+	Creating Package:
+		Package is created using 'package' statement.
+		It must be the first statement in the source file 
+		
+		E.g.
+			package test;
+			public class TestImpl { ... }
+					
+	Accessing Classes from Package:
+			When 2 or multiple classes belong to same package, they can access each other directly irrespective of
+			whether they are 'public' or not.		
+			
+			When 2 or multiple classes belong to different packages, in order to make them accessible from outside
+			the package, they must be declared 'public'.
+			
+			In order to access these classes, they need to be imported.
+			Java provides 'import' statement to handle this.
+			
+			The 'import' statement can make use of wild card '*' to import all the public declarations available
+			within the specific package.
+			
+			E.g.
+				Assumption: 
+					Package mypack contains 3 classes A, B and C.
+					
+					To import all of them use:
+						import mypack.A;
+						import mypack.B;
+						import mypack.C;
+						
+						OR
+						
+						import mypack.*;
+						
+		Sub-Package:
+			It is possible to create package inside another package. Such a package is called as sub-package.
+			
+			E.g.
+				package p1.p2;
+				public class Test { ... }
+				
+			When importing classes from sub-package, the name of the sub-package must be used through the name
+			of the super package.
+			
+			E.g.
+				To import 'Test' class which belongs to package 'p2' which is under 'p1', use:
+					import p1.p2.Test;
+				
+			If wild card '*' is used for super package, then only public declarations from super package are imported.
+			In order to import public declarations from sub-package, a separate 'import' statement is required.
+			
+			E.g.
+				import p1.*;
+				
+				The above statement imports all public declarations from package: p1 and not its sub-package: p2
+				
+				To import them as well, use: import p1.p2.*;	
+				
+		How packages are maintained?
+			In Java, classes are maintained in the form of .class files whereas packages are maintained in the form
+			of folders.
+			
+			E.g.
+				If we make a statement, "class Student is available inside package: cdac" it actually means that
+				"There is a folder named as 'cdac' which contains a .class file: Student.class.
+				
+		Default Package:
+			Unless any explicit package is used for class definition, by default, every class becomes a part of some
+			package which is called as Default Package.
+			
+			Classes which belong to Default Package cannot be imported by classes which belong to some explicit
+			package. Therefore the use of Default Package is discouraged.
+					
+			
+
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+		
+		
+		
+		
+	

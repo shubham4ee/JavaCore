@@ -1,0 +1,218 @@
+Writing data into file:
+	In order to write data into the file, Java provides 'FileOutputStream' class.
+	To handle this operation, it is not necessary that the file has to be present.
+	Even if it is not present, it gets created.
+	To write the data, 'write()' method is used.	
+	It accepts the data in the form of array of 'byte' (byte []).
+	
+	If the file is already present, it gets overwritten by default.
+	In order to retain previous data, the file must be opened in APPEND mode.
+	This is possible using 2 parameterized constructor of 'FileOutputStream' class which 
+	accepts the 2nd parameter as 'boolean' with value: true
+	
+Categories of Streams:
+	Streams are divided into 2 categories:
+		1. Byte Streams
+		2. Character Streams
+		
+	Byte Streams:
+		They work upon 8-bit data.
+		They are designed using abstract base classes: InputStream and OutputStream
+		They must be used through their sub-classes: FileInputStream and FileOutputStream
+		
+		Since Java is meant for Internationalization, it follows UNICODE character set and in order to work with
+		these characters, a separate category is made available: Character Streams
+		
+	Character Streams:
+		They work upon 16-bit data.
+		They are designed using abstract base classes: Reader and Writer
+		They must be used through their sub-classes: FileReader and FileWriter
+		
+Accepting User Input:
+	Accepting input from end user is a very common requirement. To handle this, 'System' class is used which
+	provides some global constants.
+	
+	E.g.
+		out : It is of type java.io.PrintStream
+		in : It is of type java.io.InputStream
+		
+		The constant 'out' is used to display the information on the console whereas 'in' is used to accept the
+		information from the user using an Input Device: Keyboard
+		
+		To actually accept the user input, 'java.io' package provides various classes; but it was bit complicated.
+		E.g.
+			BufferedReader
+			
+		This problem has been resolved using a 'Scanner' class which belongs to 'java.util' package since Java version
+		5.
+		
+		It provides several nextXXX() methods to accept the data.
+		
+		E.g.
+			To accept 
+				'int'	: nextInt()
+				'float' : nextFloat()
+				
+	Serialization:
+		Every domain specific object has some state. The state indicates current values available in the object.
+		Once the object becomes unused, it becomes eligible for garbage collection and eventually it is removed 
+		by the Garbage Collector. Due to this, the state of the object is lost.
+		
+		Sometimes, it is necessary to preserve the state so that it can be used in future. This is possible using
+		Serialization.
+		
+		Serialization:
+			It is the process of storing state of an object to some permanent persistent store.
+		
+		De-Serialization:
+			It is the process of loading the  state back from that permanent persistent store.
+		
+		
+		To implement Serialization and De-Serialization, Java provides an API known as Serialization API.
+		It mainly consists of following:
+			1. Serializable
+			2. ObjectOutputStream
+			3. ObjectInputStream
+			
+		Serializable:
+			It is an interface which is to be implemented by a class of which the object is to be serialized.
+			It does not have any method. It is a marker interface.
+			If not implemented, NotSerializableException is thrown.
+			
+		ObjectOutputStream:
+			It is a class which is actually used to perform serialization.
+			It knows how to perform serialization but does not know where to perform it.
+			It uses OutputStream as a destination.
+			It provides 'void writeObject(Object)'
+			
+		ObjectInputStream:
+			It is a class which is actually used to perform de-serialization.
+			It knows how to perform de-serialization but does not know where to load the state from.
+			It uses InputStream as a source.
+			It provides 'Object readObject()'
+			
+	Serialization Benefits:
+		Even though, the permanent persistent store is other than file system e.g. database, Serialization is 
+		used in other context.
+		
+		E.g.
+			DTO: Data Transfer Object
+			It is a design pattern used to transfer the object across network. To achieve this, the object must be
+			a Serializable object.
+			
+Collection Framework:
+	Collection is a data structure that is meant for holding objects.
+	Array is also one form of collection; however it is different from Java collections.
+	
+	Array Vs Collection:
+		1. Array has fixed dimension whereas collection grows dynamically.
+		2. Array can hold primitives as well as objects whereas collection holds only objects.
+		3. Array cannot hold dissimilar typed elements whereas collection can hold dissimilar typed objects.
+		
+	Java provides a variety of several collections; each of which has its own significance.
+	However, all of them have 3 common (basic) operations:
+		1. add()
+		2. retrieve() or get()
+		3. remove()
+		
+	The entire collection API is provided by 'java.util' package.
+	
+	Legacy Classes:
+		1. Stack
+		2. Vector
+		3. Dictionary
+		4. Hashtable
+		5. Properties
+		
+	Stack:
+		It is an ordered collection. The order is which elements are added, they are retrieved in same order.
+		It follows LIFO (Last In First Out) algorithm.
+		Every element has index which starts from 0.
+		
+		It mainly provides 3 utility methods:
+			1. push(): 	Used to push or add the element into the stack
+			2. pop(): 	Used to remove the element from the TOP. Returns the removed element.
+			3. peek():  Returns the element from the TOP but does not remove it.
+			
+	Vector
+		It is an ordered collection. 
+		Every collection has 2 properties:
+			1. size			:	It indicates the number of elements available in the collection
+			2. capacity	:	It indicates the number of elements the collection can accommodate
+			
+	Like Stack and Vector, there are 2 more collections which are ordered collections.
+		1. ArrayList
+		2. LinkedList
+		
+		ArrayList:
+			It behaves exactly same as that of Vector with only 1 difference:
+				Vector is Thread-Safe and ArrayList is not.
+				
+		LinkedList:
+			It behaves similar to ArrayList with some additional behaviour.
+			It implements Double Ended Queue algorithm (Deque).
+			This allows to add, retrieve or remove the elements directly from the top or bottom.
+			This is possible by using relevant methods:
+				E.g.
+					addFirst()			: Adds the element directly at the TOP.
+					getFirst()			: Returns the element directly from the TOP.
+					removeFirst()	: Removes the element directly from the TOP.
+					
+		All the above collections have 2 common behaviours:
+			1. Ordered Collections
+			2. Permit duplicate values
+			
+	Type-Safe Collection:
+		Collections can hold objects of different types. But many times there might a requirement of having a 
+		collection that holds objects of some specific type. That collection is known as Type-Safe collection.
+		
+		It is declared using '<>' notation.
+		
+		E.g.
+			Vector<Customer> allCustomers = new Vector<>();
+			In the above declaration, the collection 'allCustomers' is type-safe. It can hold objects only of type:
+				Customer.
+				
+			Any attempt to add objects of type other than 'Customer' results into compilation error.
+			There is no need of explicit type casting.
+			
+	Collection Categories:
+		Java provides different categories of collections. These categories are expressed through several
+		predefined interfaces.
+		
+		The topmost interface is 'Collection'.
+		It is derived by 2 interfaces: 'List' and 'Set'
+		'Set' is further derived by 'SortedSet'
+		
+		There is one more hierarchy which starts with 'Map'.
+		It is further derived by 'SortedMap'.
+		
+		Every interface has some contract which is followed by its corresponding implementation class or classes.
+		
+		E.g.
+			'List' interface has following contract:
+				1. Ordered Collection
+				2. Permit Duplicates
+			
+			It has mainly 4 implementations:
+				Stack, Vector, ArrayList and LinkedList
+				
+	'Set': 
+		It is another sub-interface of 'Collection' having following contract:
+			1. Unordered Collection
+			2. Prevents Duplicates
+			
+		It is implemented by 'HashSet'
+		
+		While adding objects in Hash based collection, the corresponding class has to override 'hashCode()' and
+		'equals()' methods in order to acquire the appropriate behaviour of 'Set'.
+		
+			
+		
+		
+		
+		
+		
+		
+		
+	

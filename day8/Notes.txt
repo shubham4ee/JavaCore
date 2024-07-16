@@ -1,0 +1,283 @@
+Handling Multiple Exceptions:
+	A single block of code may fire different types of exceptions. This is taken care of by providing multiple
+	'catch' blocks for a single 'try' block.
+	
+	E.g.
+		try {
+			Statement 1; //May fire Ex 1
+			Statement 2; //May fire Ex 2
+		}
+		catch(Ex1 ..){
+		
+		}
+		catch(Ex2..){
+		
+		}
+		
+Handling Default Exception:
+	Sometimes, a block of code may fire some exception which is not being handled. This means the predictions made
+	by the developer might be wrong. In such scenario, it is necessary to handle that exception which is known as 
+	Default Exception.
+	
+	This is possible by providing a 'catch' block that can handle any type of exception which is 'Exception'.
+	
+	E.g.
+		catch(Exception ex){
+		
+		}
+		
+Rule about writing many 'catch' blocks:
+	When multiple 'catch' blocks are written, if the exception specific classes represent inheritance (IS-A) 
+	relationship, then the 'catch' block of super-type must appear after the 'catch' block of sub-type.
+	
+Handling Multiple Exceptions using single 'catch' block:
+	It is possible to handle multiple exceptions using a single 'catch' block. This feature is introduced since Java
+	version 7. It uses bitwise OR operator ('|').
+	
+	E.g.
+		catch(Ex 1 | Ex 2 ref){
+		
+		}
+		
+	Since multiple exceptions are handled in a single 'catch' block, it is necessary to identify the type of exception
+	so that, depending upon that an appropriate action can be taken.
+	
+	Java provides 'instanceof' keyword to accomplish this.
+	
+Difference between Method Invocation and Firing an Exception
+	In method invocation, control is returned back to the calling environment.
+	Whereas, in case of exception, control is not returned back to the calling environment.
+	
+	But, sometimes there is a need to execute statements irrespective of whether the exception is raised or not.
+	Neither 'try' nor 'catch' blocks give guarantee about this. This is possible using one more block: 'finally'.
+	It executes always irrespective of whether the exception is raised or not.
+	
+	Like 'try' and 'catch', it is to be used in the form of block.
+	E.g.
+		finally {
+			//Some Code
+		}
+		
+	As long as the method's return type is 'void', 'finally' does not create any impact.
+	It creates an impact especially in case of methods which return a value other than 'void'.
+	
+	E.g.
+		Consider the following:
+			boolean isValid(....){
+				try {
+					//Statements
+					return true;
+				}
+				catch(...){
+					//Statements
+					return false;
+				}
+				System.out.println("Done");//Statement -- DONE
+			}
+			
+			The above fragment is invalid because the statement DONE is unreachable. Compiler gives error.
+			This can be resolved using 'finally'.
+			E.g.
+			boolean isValid(....){
+				try {
+					//Statements
+					return true;
+				}
+				catch(...){
+					//Statements
+					return false;
+				}
+				finally {
+					System.out.println("Done");//Statement -- DONE
+				}
+			}
+			
+	Rules about try-catch-finally:
+		1. Every 'try' block must be used along with either 'catch' or 'finally' or both.
+		2. The blocks must be written one after the other without any statement in between.
+		3. Variables declared within these blocks become local variables to them.
+		4. These blocks can be nested.
+		5. 'catch' cannot be written without 'try'.
+		6. 'finally' cannot be written without 'try'.
+		7. The order must be 'try' ---> 'catch' ---> 'finally'
+		
+	Other than try-catch-finally, Java provides 2 more keywords:
+		1. throws
+		2. throw
+		
+	'throws':
+		A class can define 'n' number of methods and every method may fire some exception. Under any 
+		circumstances it is needed to handle the exception and for this 'try-catch' construct is required.
+		
+		As the number of methods goes on increasing, it becomes more and more difficult to manage.
+		Java provides 'throws' keyword to simplify this.
+		
+		It is to be used either for method or constructor.
+		
+		E.g.
+			public static void readFile(String fileName) throws FileNotFoundException {
+			
+			}
+			
+			In the above code the method 'readFile()' adds 'throws' declaration for the exception:
+				FileNotFoundException
+			
+			It means that, the method is instructing the compiler that its statements may fire FileNotFoundException
+			but it is not willing to handle it. Rather its caller should handle it.
+			
+			This rule is applicable for CHECKED exceptions and not UNCHECKED exceptions.
+			
+			Once the method's signature is expanded using 'throws' for CHECKED exception, there are 2 possibilities
+			by which the program can be compiled:
+			
+			1. The caller handles the exception
+			2. The caller further delegates the responsibility to its caller using 'throws'
+			
+		In case of 'main()' method the 2nd option is not recommended because it is the entry point of the program
+		and developer will not have any control once it goes to the caller of 'main()'
+		
+		More on 'throws':
+			If the called program uses 'throws' for some exception, then the calling program, if uses 'throws',
+			must use the type which is equal  or its super type.
+			
+			E.g.
+				void doTest() throws Exception {
+				
+				}
+				
+				void doSomeTest() throws [SOME TYPE]{
+					doTest();
+				}
+				
+				In the above fragment, the value in place of SOME TYPE can be : Exception or Throwable
+				but not RuntimeException or any sub-class
+				
+			In method overriding, the overridden method can widen the scope but cannot narrow it.
+				E.g.
+					class Base {
+						void m1() throws Exception { ...}
+					}
+					class Derived extends Base {
+						void m1() {...}
+					}
+					
+				The above fragment is valid because the restriction put on by Base class method on the caller is removed
+				by Derived class overridden method.
+				
+					class Base {
+						void m1() { ...}
+					}
+					class Derived extends Base {
+						void m1() throws Exception  {...} 
+					}
+					
+				The above fragment is invalid because there is no restriction put on by Base class method on the caller
+				and the Derived class method is trying to add the restriction (narrowing the scope).
+				
+		'throw':
+			Generally, exceptions are raised by JRE. But sometimes, it is necessary to raise the exceptions explicitly.
+			This is done using 'throw'.
+			
+			General Syntax:
+				throw [Throwable]
+				
+	User Defined Exceptions:
+		Sometimes, depending upon the domain requirement, there is a need to define the exceptions explicitly.
+		These exceptions are called as User Defined Exceptions.
+		
+		To create User Defined Exceptions, it is necessary to create an implementation class which is known as
+		exception specific class.
+		
+		This class must extend either Exception or RuntimeException depending upon the requirement.
+		
+Multi-threading:
+	Multitasking:
+		It is the process of running multiple tasks simultaneously.
+		There are 2 forms of Multi-tasking:
+			1. Multi-processing
+			2. Multi-threading
+			
+		Multi-processing:
+			It involves running multiple processes simultaneously.
+			Program is a set of instructions and every running instance of a program is called as Process.
+			CPU is shared between 2 or multiple processes.
+			OS implements Context Switching algorithm for multi-processing.
+			
+			E.g.
+				Windows, Mac, Linux etc.
+				
+				Winamp is 1 process and MS Word is another process.
+				
+				Every process runs within its own address space. Therefore the entire context including variables,
+				global variables, objects etc. is isolated.
+				
+		Multi-threading:
+			It involves running multiple threads simultaneously.
+			Thread is an entity within a process.	
+			It defines the path of execution.
+			
+			E.g.
+				Every Java program has at least one thread: Main Thread
+				
+			Context switching happens between 2 threads.
+			
+			Process Vs Thread:
+			
+			Context is stored separately in multi-processing whereas context may get shared in multi-threading.
+			Process is heavyweight whereas Thread is lightweight
+			Inter-process communication is a heavyweight activity whereas inter-thread communication is a lightweight
+			activity.
+			
+			Implementing Multi-threading in Java:
+				Whatever task the thread is going to perform, its corresponding logic is to be written inside some class
+				which is known as thread implementation class.
+				
+				To create this class, Java provides 2 APIs from 'java.lang':
+					1. Thread (Class)
+					2. Runnable (Interface)
+					
+				All thread implementation classes provide 'run()' method which contains the logic for the thread.
+				
+			Thread's Life Cycle:
+				The life cycle of thread involves 5 stages:
+					1. BORN
+					2. READY
+					3. RUNNING
+					4. BLOCKED
+					5. DEAD
+					
+				BORN:
+					When the thread is newly created, it is said to be BORN state.
+					
+				READY:
+					When the thread is ready to run, it is said to be in READY state. It is the pre-requisite for the
+					thread to acquire RUNNING state.
+					
+				RUNNING:
+					When the thread's execution begins, it is said to be in RUNNING state.
+					
+				BLOCKED:
+					At any time, the currently running thread may enter into some BLOCKED state.
+					There are 4 types:
+						1. SLEEPING
+						2. SUSPENDED
+						3. BLOCKED for I/O request
+						4. WAITING
+						
+				DEAD:
+					When the task assigned to the thread is finished, it goes into DEAD state and it is over.
+					
+				
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	

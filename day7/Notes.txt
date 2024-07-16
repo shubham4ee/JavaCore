@@ -1,0 +1,336 @@
+Unqualified and Qualified Names:
+	Whatever types are declared within a package like classes, interfaces and so on have names which are of 2 
+	types:
+		1. Unqualified
+		2. Qualified
+		
+	Unqualified Names:
+		These are the names without package prefix. These names become qualified by importing the relevant type
+		from the package.
+		
+		E.g.
+			Assumption: package 'cdac' contains a class 'Student'
+			package main;
+			import cdac.Student;
+			public class MainProgram {
+				public static void main(String args[]){
+					Student s1 = new Student(); //Line 1
+					Student s2 = new Student(); //Line 2
+				}
+			}
+			
+			In the above fragment, in case of Line 1 and Line 2, unqualified name is referred.
+			
+		Qualified Name:
+			These are the names with package prefix. In this case 'import' statement is not required.
+			
+			E.g.
+			Assumption: package 'cdac' contains a class 'Student'
+			package main;
+			public class MainProgram {
+				public static void main(String args[]){
+					cdac.Student s1 = new cdac.Student(); //Line 1
+					cdac.Student s2 = new cdac.Student(); //Line 2
+				}
+			}
+			
+			In the above fragment, in case of Line 1 and Line 2, qualified name is referred.
+			
+Access Modifiers in Java:
+	Java provides 4 access modifiers:
+		1. private
+		2. public
+		3. protected
+		4. [DEFAULT]
+		
+	As long as same package is used, there is no difference among 'public', 'protected' and '[DEFAULT]'.
+	
+	When different packages are used, they behave differently:
+		1. public : Accessible from anywhere
+		2. protected: Accessible within the entire package as well as outside the package if the class is a sub-class
+		3. [DEFAULT]: Accessible only within the package and not outside the package.
+		
+Exploring Java's Built-In class library:
+	Java provides wide range of predefined classes, interfaces and other types for further development.
+	All these types or libraries belong to some package as it is a standard practice.
+	Since there are a lot of predefined types (classes, interfaces and so on), Java organizes them through various
+	packages. This means there are number of predefined packages as well.
+	
+	The most commonly used package is 'java.lang'. It is the special one.
+	It is by default imported. Therefore all public declarations made inside 'java.lang' are available by default to 
+	the developers.
+	
+	There are 2 classes from 'java.lang' which have been used many times so far:
+		1. String
+		2. System
+		
+	Exploring other classes from 'java.lang':
+		Apart from String and System, there are so many classes which belong to 'java.lang'.
+		The most commonly or frequently used are:
+			1. Object
+			2. StringBuilder
+			3. Wrapper Classes - Some classes acting as Wrappers
+			
+		1. Object class:
+			It is the ultimate ancestor.
+			Every class in Java is by default inherited from Object.
+			E.g.
+				public class Employee { .. }
+			
+			The above statement is internally processed as:
+				public class Employee extends Object { .. }
+				
+		If explicit inheritance is used, then it results into multi-level inheritance.
+		E.g.
+			public class Manager extends Employee { .. }
+		
+		The above code results into following inheritance:
+			Object ----> Employee -----> Manager
+			
+		The 'Object' class provides a basic foundation with the help of methods.
+		It provides various methods.
+		E,g,
+			toString()
+			finalize()
+			equals()
+			
+		a) toString():
+			Prototype: public String toString()
+			Usage: Used to convert or represent an object in String format.
+			
+			When any reference variable is passed as a parameter to 'System.out.println()', JRE identifies the 
+			dynamic type of that reference and searches for 'toString()' method in the corresponding class.
+			
+			If found, invokes that method; otherwise invokes 'toString()' from its parent class.
+			If the parent class is 'Object', its toString() implementation returns the hash value of the object
+			which may not be the expected result. 
+			
+			Therefore to tweak this behaviour, it is necessary to override toString() in the respective sub-class.
+			
+			A call to toString() can be either implicit or explicit.
+			
+			In Java, there are some methods which get called implicitly by JRE, e.g. toString().
+			Such methods are known as CALLBACK methods.
+			
+		b) finalize():
+			Prototype: protected void finalize()
+			Usage:	Used to perform clean-up operations if any at the time of the object getting destroyed by GC.
+			Like toString(), it is also a CALLBACK method.
+			It gets called when GC runs.
+			
+		c) equals():
+			Prototype: public boolean equals(Object)
+			Usage: Used to test 2 objects for equality
+			
+			The comparison for equality can also be done using comparison operator: '=='.
+			It works well with primitives but in case of references, it does not compare the values.
+			Rather it compares the memory locations (addresses).
+			If 2 references share same memory, then it returns 'true' otherwise 'false'.
+			
+			In order to compare data values rather than memory locations, 'equals()' method is used.
+			However the default implementation of 'equals()' available in 'Object' class behaves same as that of
+			comparison operator i.e. '=='.
+			
+			Therefore to acquire appropriate behaviour, it is necessary to override 'equals()' method.
+			
+		2) StringBuilder
+				In order to handle multiple characters, Java provides 'String' class.
+				It internally maintains an array of characters.
+				String objects are first-class objects. (They can be created without 'new').
+				E.g.
+					String name = "James";
+				However they can be created with 'new' as well.
+				E.g.
+					String name = new String("James");
+					
+				String maintains a constant pool. It is used when the object is created without 'new'.
+				E.g.
+					String str = "Hello";
+				In this case, the object gets created with value: Hello and the same value is stored in the constant pool.
+				The next statement uses the value from the constant pool and does not create any new object.
+				E.g.
+					String str2 = "Hello";
+				
+				If the object is created using 'new', constant pool is not used.
+				E.g.
+					String str = "Hello";
+					String str2 = new String("Hello");
+				
+				In this case, both the references: str and str2 refer to 2 different objects.
+				
+				String objects are immutable.
+				E.g.
+					Consider the following:
+						String message = "Hello";
+							//Code to print message: Hello
+						message = message + "Welcome";
+							//Code to print message: HelloWelcome
+						message = message + "Hi";
+							//Code to print message: HelloWelcomeHi
+							
+				In the above fragment, for every single manipulation, a new object of String is created.
+				This leads to performance problem. To address this problem, Java provides 'StringBuilder' class.
+				
+				It follows mutable sequence of characters.
+				It provides several overloaded 'append()' methods.
+				
+			3) Wrapper Classes:
+				Java provides 8 primitive types.
+				Sometimes there is a need to convert primitives in the form of objects.
+				For every primitive type, Java provides a class counterpart known as wrapper class.
+				
+				E.g.
+					Primitive Type						Wrapper Class
+						byte											Byte
+						short										Short
+						int											Integer
+						long											Long
+						float											Float
+						double										Double
+						char											Character
+						boolean										Boolean
+						
+				**All wrapper classes are 'final'.
+				
+				Creating a wrapper:
+					int x = 10;
+					Integer i = new Integer(x);
+					
+				Removing the wrapper:
+					int y = i.intValue();
+					y --> 10
+	
+		This is more simplified using Java 5 feature: Autoboxing and Unboxing
+		
+		E.g.
+			int x = 10;
+			Integer i = x; //Integer i = new Integer(x);  ----> Autoboxing
+			
+			int y = i;//int y = i.intValue(); ---> Unboxing
+			
+		Wrapper classes can also be used to convert any qualified String into the respective primitive type.
+		
+		E.g.
+			String num = "100";
+			int numVal = 	Integer.parseInt(num);
+			
+			String num2 = "100.45";
+			double numVal2 = Double.parseDouble(num2);
+			
+Exception Handling:
+	Every programming language has some rules.
+	E.g.
+		In case of Java:
+			1. Every statement must be terminated with ';'
+			2. Scope must be provided using '{ }'
+			
+			and so on.
+			
+		Any violation results into compilation error.
+		
+		But sometimes, there might be an error which cannot be identified by a compiler; rather it may occur 
+		during program's execution. Such error is called as runtime error.
+		
+		This means, there are 2 types of errors:
+			1. Compile Time
+			2. Runtime
+			
+		Compile time errors are simply called as errors whereas runtime errors are called as exceptions.
+		The process of identifying runtime errors and taking necessary action against them is known as 
+		Exception Handling.
+		
+		Exception Handling is an object oriented way of handling errors which occur at runtime.
+		Exceptions in Java are actual objects. These objects hold error information.
+		
+		Handling Exceptions in Java:
+			In order to handle exceptions in Java, mainly there are 2 keywords provided:
+				'try' and 'catch'
+			
+			Both these keywords are to be used in the form of blocks.
+			
+			E.g.
+				try {
+					//Statements
+				}
+				catch(...){
+					//Statements
+				}
+				
+			The 'try' block is used to enclose the statements which are probable to fire an exception.
+			The 'catch' block is used to handle the exception. It is also known as exception handler.
+			
+		How exceptions are raised?
+			Exceptions are raised by JRE.
+			JRE identifies the abnormal situation and maps it to the respective exception specific class.
+			E.g.
+				Index Out Of Bounds ------> ArrayIndexOutOfBoundsException
+				
+			Once the class name is identified, JRE creates an object of that class.
+				
+			Then JRE checks whether the statement is written inside the 'try' block or not.
+			If not, it fires its own message. 
+			Otherwise checks for the respective'catch' block which is catching that exception.
+			If not found, fires its own message otherwise invokes that 'catch' block.
+			
+		Exceptions Hierarchy:
+			Java provides several predefined classes in the context of Exception Handling.
+			
+			The topmost class is java.lang.Throwable
+			This class has 2 immediate sub-classes: Error and Exception
+			
+			Error:
+				It indicates a runtime error due to some resource exhaustion.
+				It is rare but fatal.
+				It is not under the control of a developer.
+				It is expressed through its sub-classes.
+					E.g.
+						StackOverflowError
+						OutOfMemoryError
+						
+			Exception:
+				It indicates a runtime error due to programming mistakes.
+				It is frequent but not fatal.
+				It is under the control of a developer.
+				It is expressed through its sub-classes
+					E.g.
+						ArrayIndexOutOfBoundsException
+						
+			Types of Exceptions:
+				Exceptions are of 2 types:
+					1. Unchecked (Runtime Exceptions)
+					2. Checked
+					
+				1. Unchecked Exceptions (Runtime Exceptions)
+					These are the exceptions for which compiler does not enforce to handle them.
+					Java provides one class to express them: RuntimeException
+					Any class which falls under RuntimeException is a runtime exception or unchecked exception.
+					
+					E.g. 
+						ArrayIndexOutOfBoundsException
+						
+				2. Checked Exceptions:
+					These are the exceptions for which compiler enforces to handle them.
+					Any class which does not fall under RuntimeException is a checked exception.
+					E.g.
+						FileNotFoundException
+			
+		
+		
+		
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+			
+			
+			
+			
+				
+		
